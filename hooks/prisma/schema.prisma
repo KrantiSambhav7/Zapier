@@ -23,6 +23,8 @@ model Zap{
   id          String @id @default(uuid())
   triggerId   String
   trigger     Trigger?
+  actions     Action[]
+  zapRuns     ZapRun[]
 }
 model Trigger{
   id          String @id @default(uuid())
@@ -35,4 +37,31 @@ model AvailableTriggers{
   id        String @id @default(uuid())
   name      String 
   triggers  Trigger[]
+}
+
+model Action{
+  id          String @id
+  zapId       String
+  zap         Zap @relation(fields: [zapId] , references: [id])
+  type        AvailableAction @relation(fields: [actionId] , references: [id])
+  actionId    String
+}
+model AvailableAction{
+  id      String @id @default(uuid())
+  name    String
+  actions Action[] 
+}
+
+model ZapRun{ // To find out when the execution of a certain zap has happened we maintain this table kind of data
+  id            String @id @default(uuid())
+  zapid         String
+  meta          Json
+  zap           Zap    @relation(fields: [zapid] , references: [id])
+  zapRunOutBox  ZapRunOutBox?
+}
+
+model ZapRunOutBox{
+  id        String @id @default(uuid())
+  zapRunId  String @unique
+  zapRun    ZapRun  @relation(fields: [zapRunId] , references: [id])
 }
