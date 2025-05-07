@@ -7,4 +7,6 @@ app.post("/hooks/catch/:userId/:zapId" , (req , res) => {
     const zapId = req.params.zapId;
     //store trigger in a db
     //then push it in a queue
+    //we have to make such a system such that when the webhook is hit then we need to put the entry for that event in both the database and the queue at the same time and if any one of it will fail then we need to cancel the other one too. So it is like the transactions but for 2 systems.
+    
 })
