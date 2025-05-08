@@ -48,6 +48,11 @@ export type AvailableAction = $Result.DefaultSelection<Prisma.$AvailableActionPa
  * 
  */
 export type ZapRun = $Result.DefaultSelection<Prisma.$ZapRunPayload>
+/**
+ * Model ZapRunOutBox
+ * 
+ */
+export type ZapRunOutBox = $Result.DefaultSelection<Prisma.$ZapRunOutBoxPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -243,6 +248,16 @@ export class PrismaClient<
     * ```
     */
   get zapRun(): Prisma.ZapRunDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.zapRunOutBox`: Exposes CRUD operations for the **ZapRunOutBox** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ZapRunOutBoxes
+    * const zapRunOutBoxes = await prisma.zapRunOutBox.findMany()
+    * ```
+    */
+  get zapRunOutBox(): Prisma.ZapRunOutBoxDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -689,7 +704,8 @@ export namespace Prisma {
     AvailableTriggers: 'AvailableTriggers',
     Action: 'Action',
     AvailableAction: 'AvailableAction',
-    ZapRun: 'ZapRun'
+    ZapRun: 'ZapRun',
+    ZapRunOutBox: 'ZapRunOutBox'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -708,7 +724,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "zap" | "trigger" | "availableTriggers" | "action" | "availableAction" | "zapRun"
+      modelProps: "user" | "zap" | "trigger" | "availableTriggers" | "action" | "availableAction" | "zapRun" | "zapRunOutBox"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1230,6 +1246,80 @@ export namespace Prisma {
           }
         }
       }
+      ZapRunOutBox: {
+        payload: Prisma.$ZapRunOutBoxPayload<ExtArgs>
+        fields: Prisma.ZapRunOutBoxFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ZapRunOutBoxFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ZapRunOutBoxPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ZapRunOutBoxFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ZapRunOutBoxPayload>
+          }
+          findFirst: {
+            args: Prisma.ZapRunOutBoxFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ZapRunOutBoxPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ZapRunOutBoxFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ZapRunOutBoxPayload>
+          }
+          findMany: {
+            args: Prisma.ZapRunOutBoxFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ZapRunOutBoxPayload>[]
+          }
+          create: {
+            args: Prisma.ZapRunOutBoxCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ZapRunOutBoxPayload>
+          }
+          createMany: {
+            args: Prisma.ZapRunOutBoxCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ZapRunOutBoxCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ZapRunOutBoxPayload>[]
+          }
+          delete: {
+            args: Prisma.ZapRunOutBoxDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ZapRunOutBoxPayload>
+          }
+          update: {
+            args: Prisma.ZapRunOutBoxUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ZapRunOutBoxPayload>
+          }
+          deleteMany: {
+            args: Prisma.ZapRunOutBoxDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ZapRunOutBoxUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ZapRunOutBoxUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ZapRunOutBoxPayload>[]
+          }
+          upsert: {
+            args: Prisma.ZapRunOutBoxUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ZapRunOutBoxPayload>
+          }
+          aggregate: {
+            args: Prisma.ZapRunOutBoxAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateZapRunOutBox>
+          }
+          groupBy: {
+            args: Prisma.ZapRunOutBoxGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ZapRunOutBoxGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ZapRunOutBoxCountArgs<ExtArgs>
+            result: $Utils.Optional<ZapRunOutBoxCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1321,6 +1411,7 @@ export namespace Prisma {
     action?: ActionOmit
     availableAction?: AvailableActionOmit
     zapRun?: ZapRunOmit
+    zapRunOutBox?: ZapRunOutBoxOmit
   }
 
   /* Types for Logging */
@@ -7779,6 +7870,7 @@ export namespace Prisma {
   export type ZapRunCountAggregateOutputType = {
     id: number
     zapid: number
+    meta: number
     _all: number
   }
 
@@ -7796,6 +7888,7 @@ export namespace Prisma {
   export type ZapRunCountAggregateInputType = {
     id?: true
     zapid?: true
+    meta?: true
     _all?: true
   }
 
@@ -7874,6 +7967,7 @@ export namespace Prisma {
   export type ZapRunGroupByOutputType = {
     id: string
     zapid: string
+    meta: JsonValue
     _count: ZapRunCountAggregateOutputType | null
     _min: ZapRunMinAggregateOutputType | null
     _max: ZapRunMaxAggregateOutputType | null
@@ -7896,29 +7990,35 @@ export namespace Prisma {
   export type ZapRunSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     zapid?: boolean
+    meta?: boolean
     zap?: boolean | ZapDefaultArgs<ExtArgs>
+    zapRunOutBox?: boolean | ZapRun$zapRunOutBoxArgs<ExtArgs>
   }, ExtArgs["result"]["zapRun"]>
 
   export type ZapRunSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     zapid?: boolean
+    meta?: boolean
     zap?: boolean | ZapDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["zapRun"]>
 
   export type ZapRunSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     zapid?: boolean
+    meta?: boolean
     zap?: boolean | ZapDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["zapRun"]>
 
   export type ZapRunSelectScalar = {
     id?: boolean
     zapid?: boolean
+    meta?: boolean
   }
 
-  export type ZapRunOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "zapid", ExtArgs["result"]["zapRun"]>
+  export type ZapRunOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "zapid" | "meta", ExtArgs["result"]["zapRun"]>
   export type ZapRunInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     zap?: boolean | ZapDefaultArgs<ExtArgs>
+    zapRunOutBox?: boolean | ZapRun$zapRunOutBoxArgs<ExtArgs>
   }
   export type ZapRunIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     zap?: boolean | ZapDefaultArgs<ExtArgs>
@@ -7931,10 +8031,12 @@ export namespace Prisma {
     name: "ZapRun"
     objects: {
       zap: Prisma.$ZapPayload<ExtArgs>
+      zapRunOutBox: Prisma.$ZapRunOutBoxPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       zapid: string
+      meta: Prisma.JsonValue
     }, ExtArgs["result"]["zapRun"]>
     composites: {}
   }
@@ -8330,6 +8432,7 @@ export namespace Prisma {
   export interface Prisma__ZapRunClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     zap<T extends ZapDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ZapDefaultArgs<ExtArgs>>): Prisma__ZapClient<$Result.GetResult<Prisma.$ZapPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    zapRunOutBox<T extends ZapRun$zapRunOutBoxArgs<ExtArgs> = {}>(args?: Subset<T, ZapRun$zapRunOutBoxArgs<ExtArgs>>): Prisma__ZapRunOutBoxClient<$Result.GetResult<Prisma.$ZapRunOutBoxPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8361,6 +8464,7 @@ export namespace Prisma {
   interface ZapRunFieldRefs {
     readonly id: FieldRef<"ZapRun", 'String'>
     readonly zapid: FieldRef<"ZapRun", 'String'>
+    readonly meta: FieldRef<"ZapRun", 'Json'>
   }
     
 
@@ -8757,6 +8861,25 @@ export namespace Prisma {
   }
 
   /**
+   * ZapRun.zapRunOutBox
+   */
+  export type ZapRun$zapRunOutBoxArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxInclude<ExtArgs> | null
+    where?: ZapRunOutBoxWhereInput
+  }
+
+  /**
    * ZapRun without action
    */
   export type ZapRunDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8772,6 +8895,1025 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ZapRunInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ZapRunOutBox
+   */
+
+  export type AggregateZapRunOutBox = {
+    _count: ZapRunOutBoxCountAggregateOutputType | null
+    _min: ZapRunOutBoxMinAggregateOutputType | null
+    _max: ZapRunOutBoxMaxAggregateOutputType | null
+  }
+
+  export type ZapRunOutBoxMinAggregateOutputType = {
+    id: string | null
+    zapRunId: string | null
+  }
+
+  export type ZapRunOutBoxMaxAggregateOutputType = {
+    id: string | null
+    zapRunId: string | null
+  }
+
+  export type ZapRunOutBoxCountAggregateOutputType = {
+    id: number
+    zapRunId: number
+    _all: number
+  }
+
+
+  export type ZapRunOutBoxMinAggregateInputType = {
+    id?: true
+    zapRunId?: true
+  }
+
+  export type ZapRunOutBoxMaxAggregateInputType = {
+    id?: true
+    zapRunId?: true
+  }
+
+  export type ZapRunOutBoxCountAggregateInputType = {
+    id?: true
+    zapRunId?: true
+    _all?: true
+  }
+
+  export type ZapRunOutBoxAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ZapRunOutBox to aggregate.
+     */
+    where?: ZapRunOutBoxWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZapRunOutBoxes to fetch.
+     */
+    orderBy?: ZapRunOutBoxOrderByWithRelationInput | ZapRunOutBoxOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ZapRunOutBoxWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZapRunOutBoxes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZapRunOutBoxes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ZapRunOutBoxes
+    **/
+    _count?: true | ZapRunOutBoxCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ZapRunOutBoxMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ZapRunOutBoxMaxAggregateInputType
+  }
+
+  export type GetZapRunOutBoxAggregateType<T extends ZapRunOutBoxAggregateArgs> = {
+        [P in keyof T & keyof AggregateZapRunOutBox]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateZapRunOutBox[P]>
+      : GetScalarType<T[P], AggregateZapRunOutBox[P]>
+  }
+
+
+
+
+  export type ZapRunOutBoxGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ZapRunOutBoxWhereInput
+    orderBy?: ZapRunOutBoxOrderByWithAggregationInput | ZapRunOutBoxOrderByWithAggregationInput[]
+    by: ZapRunOutBoxScalarFieldEnum[] | ZapRunOutBoxScalarFieldEnum
+    having?: ZapRunOutBoxScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ZapRunOutBoxCountAggregateInputType | true
+    _min?: ZapRunOutBoxMinAggregateInputType
+    _max?: ZapRunOutBoxMaxAggregateInputType
+  }
+
+  export type ZapRunOutBoxGroupByOutputType = {
+    id: string
+    zapRunId: string
+    _count: ZapRunOutBoxCountAggregateOutputType | null
+    _min: ZapRunOutBoxMinAggregateOutputType | null
+    _max: ZapRunOutBoxMaxAggregateOutputType | null
+  }
+
+  type GetZapRunOutBoxGroupByPayload<T extends ZapRunOutBoxGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ZapRunOutBoxGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ZapRunOutBoxGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ZapRunOutBoxGroupByOutputType[P]>
+            : GetScalarType<T[P], ZapRunOutBoxGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ZapRunOutBoxSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    zapRunId?: boolean
+    zapRun?: boolean | ZapRunDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["zapRunOutBox"]>
+
+  export type ZapRunOutBoxSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    zapRunId?: boolean
+    zapRun?: boolean | ZapRunDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["zapRunOutBox"]>
+
+  export type ZapRunOutBoxSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    zapRunId?: boolean
+    zapRun?: boolean | ZapRunDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["zapRunOutBox"]>
+
+  export type ZapRunOutBoxSelectScalar = {
+    id?: boolean
+    zapRunId?: boolean
+  }
+
+  export type ZapRunOutBoxOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "zapRunId", ExtArgs["result"]["zapRunOutBox"]>
+  export type ZapRunOutBoxInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    zapRun?: boolean | ZapRunDefaultArgs<ExtArgs>
+  }
+  export type ZapRunOutBoxIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    zapRun?: boolean | ZapRunDefaultArgs<ExtArgs>
+  }
+  export type ZapRunOutBoxIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    zapRun?: boolean | ZapRunDefaultArgs<ExtArgs>
+  }
+
+  export type $ZapRunOutBoxPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ZapRunOutBox"
+    objects: {
+      zapRun: Prisma.$ZapRunPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      zapRunId: string
+    }, ExtArgs["result"]["zapRunOutBox"]>
+    composites: {}
+  }
+
+  type ZapRunOutBoxGetPayload<S extends boolean | null | undefined | ZapRunOutBoxDefaultArgs> = $Result.GetResult<Prisma.$ZapRunOutBoxPayload, S>
+
+  type ZapRunOutBoxCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ZapRunOutBoxFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ZapRunOutBoxCountAggregateInputType | true
+    }
+
+  export interface ZapRunOutBoxDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ZapRunOutBox'], meta: { name: 'ZapRunOutBox' } }
+    /**
+     * Find zero or one ZapRunOutBox that matches the filter.
+     * @param {ZapRunOutBoxFindUniqueArgs} args - Arguments to find a ZapRunOutBox
+     * @example
+     * // Get one ZapRunOutBox
+     * const zapRunOutBox = await prisma.zapRunOutBox.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ZapRunOutBoxFindUniqueArgs>(args: SelectSubset<T, ZapRunOutBoxFindUniqueArgs<ExtArgs>>): Prisma__ZapRunOutBoxClient<$Result.GetResult<Prisma.$ZapRunOutBoxPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ZapRunOutBox that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ZapRunOutBoxFindUniqueOrThrowArgs} args - Arguments to find a ZapRunOutBox
+     * @example
+     * // Get one ZapRunOutBox
+     * const zapRunOutBox = await prisma.zapRunOutBox.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ZapRunOutBoxFindUniqueOrThrowArgs>(args: SelectSubset<T, ZapRunOutBoxFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ZapRunOutBoxClient<$Result.GetResult<Prisma.$ZapRunOutBoxPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ZapRunOutBox that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZapRunOutBoxFindFirstArgs} args - Arguments to find a ZapRunOutBox
+     * @example
+     * // Get one ZapRunOutBox
+     * const zapRunOutBox = await prisma.zapRunOutBox.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ZapRunOutBoxFindFirstArgs>(args?: SelectSubset<T, ZapRunOutBoxFindFirstArgs<ExtArgs>>): Prisma__ZapRunOutBoxClient<$Result.GetResult<Prisma.$ZapRunOutBoxPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ZapRunOutBox that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZapRunOutBoxFindFirstOrThrowArgs} args - Arguments to find a ZapRunOutBox
+     * @example
+     * // Get one ZapRunOutBox
+     * const zapRunOutBox = await prisma.zapRunOutBox.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ZapRunOutBoxFindFirstOrThrowArgs>(args?: SelectSubset<T, ZapRunOutBoxFindFirstOrThrowArgs<ExtArgs>>): Prisma__ZapRunOutBoxClient<$Result.GetResult<Prisma.$ZapRunOutBoxPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ZapRunOutBoxes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZapRunOutBoxFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ZapRunOutBoxes
+     * const zapRunOutBoxes = await prisma.zapRunOutBox.findMany()
+     * 
+     * // Get first 10 ZapRunOutBoxes
+     * const zapRunOutBoxes = await prisma.zapRunOutBox.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const zapRunOutBoxWithIdOnly = await prisma.zapRunOutBox.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ZapRunOutBoxFindManyArgs>(args?: SelectSubset<T, ZapRunOutBoxFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ZapRunOutBoxPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ZapRunOutBox.
+     * @param {ZapRunOutBoxCreateArgs} args - Arguments to create a ZapRunOutBox.
+     * @example
+     * // Create one ZapRunOutBox
+     * const ZapRunOutBox = await prisma.zapRunOutBox.create({
+     *   data: {
+     *     // ... data to create a ZapRunOutBox
+     *   }
+     * })
+     * 
+     */
+    create<T extends ZapRunOutBoxCreateArgs>(args: SelectSubset<T, ZapRunOutBoxCreateArgs<ExtArgs>>): Prisma__ZapRunOutBoxClient<$Result.GetResult<Prisma.$ZapRunOutBoxPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ZapRunOutBoxes.
+     * @param {ZapRunOutBoxCreateManyArgs} args - Arguments to create many ZapRunOutBoxes.
+     * @example
+     * // Create many ZapRunOutBoxes
+     * const zapRunOutBox = await prisma.zapRunOutBox.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ZapRunOutBoxCreateManyArgs>(args?: SelectSubset<T, ZapRunOutBoxCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ZapRunOutBoxes and returns the data saved in the database.
+     * @param {ZapRunOutBoxCreateManyAndReturnArgs} args - Arguments to create many ZapRunOutBoxes.
+     * @example
+     * // Create many ZapRunOutBoxes
+     * const zapRunOutBox = await prisma.zapRunOutBox.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ZapRunOutBoxes and only return the `id`
+     * const zapRunOutBoxWithIdOnly = await prisma.zapRunOutBox.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ZapRunOutBoxCreateManyAndReturnArgs>(args?: SelectSubset<T, ZapRunOutBoxCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ZapRunOutBoxPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ZapRunOutBox.
+     * @param {ZapRunOutBoxDeleteArgs} args - Arguments to delete one ZapRunOutBox.
+     * @example
+     * // Delete one ZapRunOutBox
+     * const ZapRunOutBox = await prisma.zapRunOutBox.delete({
+     *   where: {
+     *     // ... filter to delete one ZapRunOutBox
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ZapRunOutBoxDeleteArgs>(args: SelectSubset<T, ZapRunOutBoxDeleteArgs<ExtArgs>>): Prisma__ZapRunOutBoxClient<$Result.GetResult<Prisma.$ZapRunOutBoxPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ZapRunOutBox.
+     * @param {ZapRunOutBoxUpdateArgs} args - Arguments to update one ZapRunOutBox.
+     * @example
+     * // Update one ZapRunOutBox
+     * const zapRunOutBox = await prisma.zapRunOutBox.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ZapRunOutBoxUpdateArgs>(args: SelectSubset<T, ZapRunOutBoxUpdateArgs<ExtArgs>>): Prisma__ZapRunOutBoxClient<$Result.GetResult<Prisma.$ZapRunOutBoxPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ZapRunOutBoxes.
+     * @param {ZapRunOutBoxDeleteManyArgs} args - Arguments to filter ZapRunOutBoxes to delete.
+     * @example
+     * // Delete a few ZapRunOutBoxes
+     * const { count } = await prisma.zapRunOutBox.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ZapRunOutBoxDeleteManyArgs>(args?: SelectSubset<T, ZapRunOutBoxDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ZapRunOutBoxes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZapRunOutBoxUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ZapRunOutBoxes
+     * const zapRunOutBox = await prisma.zapRunOutBox.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ZapRunOutBoxUpdateManyArgs>(args: SelectSubset<T, ZapRunOutBoxUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ZapRunOutBoxes and returns the data updated in the database.
+     * @param {ZapRunOutBoxUpdateManyAndReturnArgs} args - Arguments to update many ZapRunOutBoxes.
+     * @example
+     * // Update many ZapRunOutBoxes
+     * const zapRunOutBox = await prisma.zapRunOutBox.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ZapRunOutBoxes and only return the `id`
+     * const zapRunOutBoxWithIdOnly = await prisma.zapRunOutBox.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ZapRunOutBoxUpdateManyAndReturnArgs>(args: SelectSubset<T, ZapRunOutBoxUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ZapRunOutBoxPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ZapRunOutBox.
+     * @param {ZapRunOutBoxUpsertArgs} args - Arguments to update or create a ZapRunOutBox.
+     * @example
+     * // Update or create a ZapRunOutBox
+     * const zapRunOutBox = await prisma.zapRunOutBox.upsert({
+     *   create: {
+     *     // ... data to create a ZapRunOutBox
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ZapRunOutBox we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ZapRunOutBoxUpsertArgs>(args: SelectSubset<T, ZapRunOutBoxUpsertArgs<ExtArgs>>): Prisma__ZapRunOutBoxClient<$Result.GetResult<Prisma.$ZapRunOutBoxPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ZapRunOutBoxes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZapRunOutBoxCountArgs} args - Arguments to filter ZapRunOutBoxes to count.
+     * @example
+     * // Count the number of ZapRunOutBoxes
+     * const count = await prisma.zapRunOutBox.count({
+     *   where: {
+     *     // ... the filter for the ZapRunOutBoxes we want to count
+     *   }
+     * })
+    **/
+    count<T extends ZapRunOutBoxCountArgs>(
+      args?: Subset<T, ZapRunOutBoxCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ZapRunOutBoxCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ZapRunOutBox.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZapRunOutBoxAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ZapRunOutBoxAggregateArgs>(args: Subset<T, ZapRunOutBoxAggregateArgs>): Prisma.PrismaPromise<GetZapRunOutBoxAggregateType<T>>
+
+    /**
+     * Group by ZapRunOutBox.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZapRunOutBoxGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ZapRunOutBoxGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ZapRunOutBoxGroupByArgs['orderBy'] }
+        : { orderBy?: ZapRunOutBoxGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ZapRunOutBoxGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetZapRunOutBoxGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ZapRunOutBox model
+   */
+  readonly fields: ZapRunOutBoxFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ZapRunOutBox.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ZapRunOutBoxClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    zapRun<T extends ZapRunDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ZapRunDefaultArgs<ExtArgs>>): Prisma__ZapRunClient<$Result.GetResult<Prisma.$ZapRunPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ZapRunOutBox model
+   */
+  interface ZapRunOutBoxFieldRefs {
+    readonly id: FieldRef<"ZapRunOutBox", 'String'>
+    readonly zapRunId: FieldRef<"ZapRunOutBox", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ZapRunOutBox findUnique
+   */
+  export type ZapRunOutBoxFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxInclude<ExtArgs> | null
+    /**
+     * Filter, which ZapRunOutBox to fetch.
+     */
+    where: ZapRunOutBoxWhereUniqueInput
+  }
+
+  /**
+   * ZapRunOutBox findUniqueOrThrow
+   */
+  export type ZapRunOutBoxFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxInclude<ExtArgs> | null
+    /**
+     * Filter, which ZapRunOutBox to fetch.
+     */
+    where: ZapRunOutBoxWhereUniqueInput
+  }
+
+  /**
+   * ZapRunOutBox findFirst
+   */
+  export type ZapRunOutBoxFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxInclude<ExtArgs> | null
+    /**
+     * Filter, which ZapRunOutBox to fetch.
+     */
+    where?: ZapRunOutBoxWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZapRunOutBoxes to fetch.
+     */
+    orderBy?: ZapRunOutBoxOrderByWithRelationInput | ZapRunOutBoxOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ZapRunOutBoxes.
+     */
+    cursor?: ZapRunOutBoxWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZapRunOutBoxes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZapRunOutBoxes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ZapRunOutBoxes.
+     */
+    distinct?: ZapRunOutBoxScalarFieldEnum | ZapRunOutBoxScalarFieldEnum[]
+  }
+
+  /**
+   * ZapRunOutBox findFirstOrThrow
+   */
+  export type ZapRunOutBoxFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxInclude<ExtArgs> | null
+    /**
+     * Filter, which ZapRunOutBox to fetch.
+     */
+    where?: ZapRunOutBoxWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZapRunOutBoxes to fetch.
+     */
+    orderBy?: ZapRunOutBoxOrderByWithRelationInput | ZapRunOutBoxOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ZapRunOutBoxes.
+     */
+    cursor?: ZapRunOutBoxWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZapRunOutBoxes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZapRunOutBoxes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ZapRunOutBoxes.
+     */
+    distinct?: ZapRunOutBoxScalarFieldEnum | ZapRunOutBoxScalarFieldEnum[]
+  }
+
+  /**
+   * ZapRunOutBox findMany
+   */
+  export type ZapRunOutBoxFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxInclude<ExtArgs> | null
+    /**
+     * Filter, which ZapRunOutBoxes to fetch.
+     */
+    where?: ZapRunOutBoxWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZapRunOutBoxes to fetch.
+     */
+    orderBy?: ZapRunOutBoxOrderByWithRelationInput | ZapRunOutBoxOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ZapRunOutBoxes.
+     */
+    cursor?: ZapRunOutBoxWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZapRunOutBoxes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZapRunOutBoxes.
+     */
+    skip?: number
+    distinct?: ZapRunOutBoxScalarFieldEnum | ZapRunOutBoxScalarFieldEnum[]
+  }
+
+  /**
+   * ZapRunOutBox create
+   */
+  export type ZapRunOutBoxCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ZapRunOutBox.
+     */
+    data: XOR<ZapRunOutBoxCreateInput, ZapRunOutBoxUncheckedCreateInput>
+  }
+
+  /**
+   * ZapRunOutBox createMany
+   */
+  export type ZapRunOutBoxCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ZapRunOutBoxes.
+     */
+    data: ZapRunOutBoxCreateManyInput | ZapRunOutBoxCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ZapRunOutBox createManyAndReturn
+   */
+  export type ZapRunOutBoxCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * The data used to create many ZapRunOutBoxes.
+     */
+    data: ZapRunOutBoxCreateManyInput | ZapRunOutBoxCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ZapRunOutBox update
+   */
+  export type ZapRunOutBoxUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ZapRunOutBox.
+     */
+    data: XOR<ZapRunOutBoxUpdateInput, ZapRunOutBoxUncheckedUpdateInput>
+    /**
+     * Choose, which ZapRunOutBox to update.
+     */
+    where: ZapRunOutBoxWhereUniqueInput
+  }
+
+  /**
+   * ZapRunOutBox updateMany
+   */
+  export type ZapRunOutBoxUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ZapRunOutBoxes.
+     */
+    data: XOR<ZapRunOutBoxUpdateManyMutationInput, ZapRunOutBoxUncheckedUpdateManyInput>
+    /**
+     * Filter which ZapRunOutBoxes to update
+     */
+    where?: ZapRunOutBoxWhereInput
+    /**
+     * Limit how many ZapRunOutBoxes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ZapRunOutBox updateManyAndReturn
+   */
+  export type ZapRunOutBoxUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * The data used to update ZapRunOutBoxes.
+     */
+    data: XOR<ZapRunOutBoxUpdateManyMutationInput, ZapRunOutBoxUncheckedUpdateManyInput>
+    /**
+     * Filter which ZapRunOutBoxes to update
+     */
+    where?: ZapRunOutBoxWhereInput
+    /**
+     * Limit how many ZapRunOutBoxes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ZapRunOutBox upsert
+   */
+  export type ZapRunOutBoxUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ZapRunOutBox to update in case it exists.
+     */
+    where: ZapRunOutBoxWhereUniqueInput
+    /**
+     * In case the ZapRunOutBox found by the `where` argument doesn't exist, create a new ZapRunOutBox with this data.
+     */
+    create: XOR<ZapRunOutBoxCreateInput, ZapRunOutBoxUncheckedCreateInput>
+    /**
+     * In case the ZapRunOutBox was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ZapRunOutBoxUpdateInput, ZapRunOutBoxUncheckedUpdateInput>
+  }
+
+  /**
+   * ZapRunOutBox delete
+   */
+  export type ZapRunOutBoxDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxInclude<ExtArgs> | null
+    /**
+     * Filter which ZapRunOutBox to delete.
+     */
+    where: ZapRunOutBoxWhereUniqueInput
+  }
+
+  /**
+   * ZapRunOutBox deleteMany
+   */
+  export type ZapRunOutBoxDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ZapRunOutBoxes to delete
+     */
+    where?: ZapRunOutBoxWhereInput
+    /**
+     * Limit how many ZapRunOutBoxes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ZapRunOutBox without action
+   */
+  export type ZapRunOutBoxDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ZapRunOutBox
+     */
+    select?: ZapRunOutBoxSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ZapRunOutBox
+     */
+    omit?: ZapRunOutBoxOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapRunOutBoxInclude<ExtArgs> | null
   }
 
 
@@ -8843,10 +9985,19 @@ export namespace Prisma {
 
   export const ZapRunScalarFieldEnum: {
     id: 'id',
-    zapid: 'zapid'
+    zapid: 'zapid',
+    meta: 'meta'
   };
 
   export type ZapRunScalarFieldEnum = (typeof ZapRunScalarFieldEnum)[keyof typeof ZapRunScalarFieldEnum]
+
+
+  export const ZapRunOutBoxScalarFieldEnum: {
+    id: 'id',
+    zapRunId: 'zapRunId'
+  };
+
+  export type ZapRunOutBoxScalarFieldEnum = (typeof ZapRunOutBoxScalarFieldEnum)[keyof typeof ZapRunOutBoxScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8857,12 +10008,28 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -8895,6 +10062,20 @@ export namespace Prisma {
    * Reference to a field of type 'String[]'
    */
   export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -9192,13 +10373,17 @@ export namespace Prisma {
     NOT?: ZapRunWhereInput | ZapRunWhereInput[]
     id?: StringFilter<"ZapRun"> | string
     zapid?: StringFilter<"ZapRun"> | string
+    meta?: JsonFilter<"ZapRun">
     zap?: XOR<ZapScalarRelationFilter, ZapWhereInput>
+    zapRunOutBox?: XOR<ZapRunOutBoxNullableScalarRelationFilter, ZapRunOutBoxWhereInput> | null
   }
 
   export type ZapRunOrderByWithRelationInput = {
     id?: SortOrder
     zapid?: SortOrder
+    meta?: SortOrder
     zap?: ZapOrderByWithRelationInput
+    zapRunOutBox?: ZapRunOutBoxOrderByWithRelationInput
   }
 
   export type ZapRunWhereUniqueInput = Prisma.AtLeast<{
@@ -9207,12 +10392,15 @@ export namespace Prisma {
     OR?: ZapRunWhereInput[]
     NOT?: ZapRunWhereInput | ZapRunWhereInput[]
     zapid?: StringFilter<"ZapRun"> | string
+    meta?: JsonFilter<"ZapRun">
     zap?: XOR<ZapScalarRelationFilter, ZapWhereInput>
+    zapRunOutBox?: XOR<ZapRunOutBoxNullableScalarRelationFilter, ZapRunOutBoxWhereInput> | null
   }, "id">
 
   export type ZapRunOrderByWithAggregationInput = {
     id?: SortOrder
     zapid?: SortOrder
+    meta?: SortOrder
     _count?: ZapRunCountOrderByAggregateInput
     _max?: ZapRunMaxOrderByAggregateInput
     _min?: ZapRunMinOrderByAggregateInput
@@ -9224,6 +10412,47 @@ export namespace Prisma {
     NOT?: ZapRunScalarWhereWithAggregatesInput | ZapRunScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ZapRun"> | string
     zapid?: StringWithAggregatesFilter<"ZapRun"> | string
+    meta?: JsonWithAggregatesFilter<"ZapRun">
+  }
+
+  export type ZapRunOutBoxWhereInput = {
+    AND?: ZapRunOutBoxWhereInput | ZapRunOutBoxWhereInput[]
+    OR?: ZapRunOutBoxWhereInput[]
+    NOT?: ZapRunOutBoxWhereInput | ZapRunOutBoxWhereInput[]
+    id?: StringFilter<"ZapRunOutBox"> | string
+    zapRunId?: StringFilter<"ZapRunOutBox"> | string
+    zapRun?: XOR<ZapRunScalarRelationFilter, ZapRunWhereInput>
+  }
+
+  export type ZapRunOutBoxOrderByWithRelationInput = {
+    id?: SortOrder
+    zapRunId?: SortOrder
+    zapRun?: ZapRunOrderByWithRelationInput
+  }
+
+  export type ZapRunOutBoxWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    zapRunId?: string
+    AND?: ZapRunOutBoxWhereInput | ZapRunOutBoxWhereInput[]
+    OR?: ZapRunOutBoxWhereInput[]
+    NOT?: ZapRunOutBoxWhereInput | ZapRunOutBoxWhereInput[]
+    zapRun?: XOR<ZapRunScalarRelationFilter, ZapRunWhereInput>
+  }, "id" | "zapRunId">
+
+  export type ZapRunOutBoxOrderByWithAggregationInput = {
+    id?: SortOrder
+    zapRunId?: SortOrder
+    _count?: ZapRunOutBoxCountOrderByAggregateInput
+    _max?: ZapRunOutBoxMaxOrderByAggregateInput
+    _min?: ZapRunOutBoxMinOrderByAggregateInput
+  }
+
+  export type ZapRunOutBoxScalarWhereWithAggregatesInput = {
+    AND?: ZapRunOutBoxScalarWhereWithAggregatesInput | ZapRunOutBoxScalarWhereWithAggregatesInput[]
+    OR?: ZapRunOutBoxScalarWhereWithAggregatesInput[]
+    NOT?: ZapRunOutBoxScalarWhereWithAggregatesInput | ZapRunOutBoxScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ZapRunOutBox"> | string
+    zapRunId?: StringWithAggregatesFilter<"ZapRunOutBox"> | string
   }
 
   export type UserCreateInput = {
@@ -9479,36 +10708,81 @@ export namespace Prisma {
 
   export type ZapRunCreateInput = {
     id?: string
+    meta: JsonNullValueInput | InputJsonValue
     zap: ZapCreateNestedOneWithoutZapRunsInput
+    zapRunOutBox?: ZapRunOutBoxCreateNestedOneWithoutZapRunInput
   }
 
   export type ZapRunUncheckedCreateInput = {
     id?: string
     zapid: string
+    meta: JsonNullValueInput | InputJsonValue
+    zapRunOutBox?: ZapRunOutBoxUncheckedCreateNestedOneWithoutZapRunInput
   }
 
   export type ZapRunUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
     zap?: ZapUpdateOneRequiredWithoutZapRunsNestedInput
+    zapRunOutBox?: ZapRunOutBoxUpdateOneWithoutZapRunNestedInput
   }
 
   export type ZapRunUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     zapid?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    zapRunOutBox?: ZapRunOutBoxUncheckedUpdateOneWithoutZapRunNestedInput
   }
 
   export type ZapRunCreateManyInput = {
     id?: string
     zapid: string
+    meta: JsonNullValueInput | InputJsonValue
   }
 
   export type ZapRunUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
   }
 
   export type ZapRunUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     zapid?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ZapRunOutBoxCreateInput = {
+    id?: string
+    zapRun: ZapRunCreateNestedOneWithoutZapRunOutBoxInput
+  }
+
+  export type ZapRunOutBoxUncheckedCreateInput = {
+    id?: string
+    zapRunId: string
+  }
+
+  export type ZapRunOutBoxUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    zapRun?: ZapRunUpdateOneRequiredWithoutZapRunOutBoxNestedInput
+  }
+
+  export type ZapRunOutBoxUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    zapRunId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZapRunOutBoxCreateManyInput = {
+    id?: string
+    zapRunId: string
+  }
+
+  export type ZapRunOutBoxUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZapRunOutBoxUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    zapRunId?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -9730,10 +11004,39 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type ZapRunOutBoxNullableScalarRelationFilter = {
+    is?: ZapRunOutBoxWhereInput | null
+    isNot?: ZapRunOutBoxWhereInput | null
+  }
 
   export type ZapRunCountOrderByAggregateInput = {
     id?: SortOrder
     zapid?: SortOrder
+    meta?: SortOrder
   }
 
   export type ZapRunMaxOrderByAggregateInput = {
@@ -9744,6 +11047,52 @@ export namespace Prisma {
   export type ZapRunMinOrderByAggregateInput = {
     id?: SortOrder
     zapid?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type ZapRunScalarRelationFilter = {
+    is?: ZapRunWhereInput
+    isNot?: ZapRunWhereInput
+  }
+
+  export type ZapRunOutBoxCountOrderByAggregateInput = {
+    id?: SortOrder
+    zapRunId?: SortOrder
+  }
+
+  export type ZapRunOutBoxMaxOrderByAggregateInput = {
+    id?: SortOrder
+    zapRunId?: SortOrder
+  }
+
+  export type ZapRunOutBoxMinOrderByAggregateInput = {
+    id?: SortOrder
+    zapRunId?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -10020,12 +11369,58 @@ export namespace Prisma {
     connect?: ZapWhereUniqueInput
   }
 
+  export type ZapRunOutBoxCreateNestedOneWithoutZapRunInput = {
+    create?: XOR<ZapRunOutBoxCreateWithoutZapRunInput, ZapRunOutBoxUncheckedCreateWithoutZapRunInput>
+    connectOrCreate?: ZapRunOutBoxCreateOrConnectWithoutZapRunInput
+    connect?: ZapRunOutBoxWhereUniqueInput
+  }
+
+  export type ZapRunOutBoxUncheckedCreateNestedOneWithoutZapRunInput = {
+    create?: XOR<ZapRunOutBoxCreateWithoutZapRunInput, ZapRunOutBoxUncheckedCreateWithoutZapRunInput>
+    connectOrCreate?: ZapRunOutBoxCreateOrConnectWithoutZapRunInput
+    connect?: ZapRunOutBoxWhereUniqueInput
+  }
+
   export type ZapUpdateOneRequiredWithoutZapRunsNestedInput = {
     create?: XOR<ZapCreateWithoutZapRunsInput, ZapUncheckedCreateWithoutZapRunsInput>
     connectOrCreate?: ZapCreateOrConnectWithoutZapRunsInput
     upsert?: ZapUpsertWithoutZapRunsInput
     connect?: ZapWhereUniqueInput
     update?: XOR<XOR<ZapUpdateToOneWithWhereWithoutZapRunsInput, ZapUpdateWithoutZapRunsInput>, ZapUncheckedUpdateWithoutZapRunsInput>
+  }
+
+  export type ZapRunOutBoxUpdateOneWithoutZapRunNestedInput = {
+    create?: XOR<ZapRunOutBoxCreateWithoutZapRunInput, ZapRunOutBoxUncheckedCreateWithoutZapRunInput>
+    connectOrCreate?: ZapRunOutBoxCreateOrConnectWithoutZapRunInput
+    upsert?: ZapRunOutBoxUpsertWithoutZapRunInput
+    disconnect?: ZapRunOutBoxWhereInput | boolean
+    delete?: ZapRunOutBoxWhereInput | boolean
+    connect?: ZapRunOutBoxWhereUniqueInput
+    update?: XOR<XOR<ZapRunOutBoxUpdateToOneWithWhereWithoutZapRunInput, ZapRunOutBoxUpdateWithoutZapRunInput>, ZapRunOutBoxUncheckedUpdateWithoutZapRunInput>
+  }
+
+  export type ZapRunOutBoxUncheckedUpdateOneWithoutZapRunNestedInput = {
+    create?: XOR<ZapRunOutBoxCreateWithoutZapRunInput, ZapRunOutBoxUncheckedCreateWithoutZapRunInput>
+    connectOrCreate?: ZapRunOutBoxCreateOrConnectWithoutZapRunInput
+    upsert?: ZapRunOutBoxUpsertWithoutZapRunInput
+    disconnect?: ZapRunOutBoxWhereInput | boolean
+    delete?: ZapRunOutBoxWhereInput | boolean
+    connect?: ZapRunOutBoxWhereUniqueInput
+    update?: XOR<XOR<ZapRunOutBoxUpdateToOneWithWhereWithoutZapRunInput, ZapRunOutBoxUpdateWithoutZapRunInput>, ZapRunOutBoxUncheckedUpdateWithoutZapRunInput>
+  }
+
+  export type ZapRunCreateNestedOneWithoutZapRunOutBoxInput = {
+    create?: XOR<ZapRunCreateWithoutZapRunOutBoxInput, ZapRunUncheckedCreateWithoutZapRunOutBoxInput>
+    connectOrCreate?: ZapRunCreateOrConnectWithoutZapRunOutBoxInput
+    connect?: ZapRunWhereUniqueInput
+  }
+
+  export type ZapRunUpdateOneRequiredWithoutZapRunOutBoxNestedInput = {
+    create?: XOR<ZapRunCreateWithoutZapRunOutBoxInput, ZapRunUncheckedCreateWithoutZapRunOutBoxInput>
+    connectOrCreate?: ZapRunCreateOrConnectWithoutZapRunOutBoxInput
+    upsert?: ZapRunUpsertWithoutZapRunOutBoxInput
+    connect?: ZapRunWhereUniqueInput
+    update?: XOR<XOR<ZapRunUpdateToOneWithWhereWithoutZapRunOutBoxInput, ZapRunUpdateWithoutZapRunOutBoxInput>, ZapRunUncheckedUpdateWithoutZapRunOutBoxInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -10096,6 +11491,29 @@ export namespace Prisma {
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
   }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type TriggerCreateWithoutZapInput = {
     id?: string
@@ -10134,10 +11552,14 @@ export namespace Prisma {
 
   export type ZapRunCreateWithoutZapInput = {
     id?: string
+    meta: JsonNullValueInput | InputJsonValue
+    zapRunOutBox?: ZapRunOutBoxCreateNestedOneWithoutZapRunInput
   }
 
   export type ZapRunUncheckedCreateWithoutZapInput = {
     id?: string
+    meta: JsonNullValueInput | InputJsonValue
+    zapRunOutBox?: ZapRunOutBoxUncheckedCreateNestedOneWithoutZapRunInput
   }
 
   export type ZapRunCreateOrConnectWithoutZapInput = {
@@ -10218,6 +11640,7 @@ export namespace Prisma {
     NOT?: ZapRunScalarWhereInput | ZapRunScalarWhereInput[]
     id?: StringFilter<"ZapRun"> | string
     zapid?: StringFilter<"ZapRun"> | string
+    meta?: JsonFilter<"ZapRun">
   }
 
   export type AvailableTriggersCreateWithoutTriggersInput = {
@@ -10480,6 +11903,19 @@ export namespace Prisma {
     create: XOR<ZapCreateWithoutZapRunsInput, ZapUncheckedCreateWithoutZapRunsInput>
   }
 
+  export type ZapRunOutBoxCreateWithoutZapRunInput = {
+    id?: string
+  }
+
+  export type ZapRunOutBoxUncheckedCreateWithoutZapRunInput = {
+    id?: string
+  }
+
+  export type ZapRunOutBoxCreateOrConnectWithoutZapRunInput = {
+    where: ZapRunOutBoxWhereUniqueInput
+    create: XOR<ZapRunOutBoxCreateWithoutZapRunInput, ZapRunOutBoxUncheckedCreateWithoutZapRunInput>
+  }
+
   export type ZapUpsertWithoutZapRunsInput = {
     update: XOR<ZapUpdateWithoutZapRunsInput, ZapUncheckedUpdateWithoutZapRunsInput>
     create: XOR<ZapCreateWithoutZapRunsInput, ZapUncheckedCreateWithoutZapRunsInput>
@@ -10505,6 +11941,65 @@ export namespace Prisma {
     actions?: ActionUncheckedUpdateManyWithoutZapNestedInput
   }
 
+  export type ZapRunOutBoxUpsertWithoutZapRunInput = {
+    update: XOR<ZapRunOutBoxUpdateWithoutZapRunInput, ZapRunOutBoxUncheckedUpdateWithoutZapRunInput>
+    create: XOR<ZapRunOutBoxCreateWithoutZapRunInput, ZapRunOutBoxUncheckedCreateWithoutZapRunInput>
+    where?: ZapRunOutBoxWhereInput
+  }
+
+  export type ZapRunOutBoxUpdateToOneWithWhereWithoutZapRunInput = {
+    where?: ZapRunOutBoxWhereInput
+    data: XOR<ZapRunOutBoxUpdateWithoutZapRunInput, ZapRunOutBoxUncheckedUpdateWithoutZapRunInput>
+  }
+
+  export type ZapRunOutBoxUpdateWithoutZapRunInput = {
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZapRunOutBoxUncheckedUpdateWithoutZapRunInput = {
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZapRunCreateWithoutZapRunOutBoxInput = {
+    id?: string
+    meta: JsonNullValueInput | InputJsonValue
+    zap: ZapCreateNestedOneWithoutZapRunsInput
+  }
+
+  export type ZapRunUncheckedCreateWithoutZapRunOutBoxInput = {
+    id?: string
+    zapid: string
+    meta: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ZapRunCreateOrConnectWithoutZapRunOutBoxInput = {
+    where: ZapRunWhereUniqueInput
+    create: XOR<ZapRunCreateWithoutZapRunOutBoxInput, ZapRunUncheckedCreateWithoutZapRunOutBoxInput>
+  }
+
+  export type ZapRunUpsertWithoutZapRunOutBoxInput = {
+    update: XOR<ZapRunUpdateWithoutZapRunOutBoxInput, ZapRunUncheckedUpdateWithoutZapRunOutBoxInput>
+    create: XOR<ZapRunCreateWithoutZapRunOutBoxInput, ZapRunUncheckedCreateWithoutZapRunOutBoxInput>
+    where?: ZapRunWhereInput
+  }
+
+  export type ZapRunUpdateToOneWithWhereWithoutZapRunOutBoxInput = {
+    where?: ZapRunWhereInput
+    data: XOR<ZapRunUpdateWithoutZapRunOutBoxInput, ZapRunUncheckedUpdateWithoutZapRunOutBoxInput>
+  }
+
+  export type ZapRunUpdateWithoutZapRunOutBoxInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    zap?: ZapUpdateOneRequiredWithoutZapRunsNestedInput
+  }
+
+  export type ZapRunUncheckedUpdateWithoutZapRunOutBoxInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    zapid?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+  }
+
   export type ActionCreateManyZapInput = {
     id: string
     actionId: string
@@ -10512,6 +12007,7 @@ export namespace Prisma {
 
   export type ZapRunCreateManyZapInput = {
     id?: string
+    meta: JsonNullValueInput | InputJsonValue
   }
 
   export type ActionUpdateWithoutZapInput = {
@@ -10531,14 +12027,19 @@ export namespace Prisma {
 
   export type ZapRunUpdateWithoutZapInput = {
     id?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    zapRunOutBox?: ZapRunOutBoxUpdateOneWithoutZapRunNestedInput
   }
 
   export type ZapRunUncheckedUpdateWithoutZapInput = {
     id?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
+    zapRunOutBox?: ZapRunOutBoxUncheckedUpdateOneWithoutZapRunNestedInput
   }
 
   export type ZapRunUncheckedUpdateManyWithoutZapInput = {
     id?: StringFieldUpdateOperationsInput | string
+    meta?: JsonNullValueInput | InputJsonValue
   }
 
   export type TriggerCreateManyTypeInput = {
